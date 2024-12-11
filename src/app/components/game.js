@@ -14,8 +14,6 @@ const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel, electr
     const timerRef = useRef(null);
     const sceneRef = useRef(null)
 
-
-
     useEffect(() => {
         const colors = {
             'dark': [28, 25, 23],
