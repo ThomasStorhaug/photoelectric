@@ -1,4 +1,4 @@
-const { Actor } = require("excalibur");
+import { Actor } from "excalibur";
 
 export class StaticActor extends Actor {
     constructor({ imageSource, x, y }) {

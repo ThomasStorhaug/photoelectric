@@ -3,7 +3,6 @@ import { photonCollisionGroup } from "./photon";
 
 
 const electronImage = new ImageSource('/resources/electron.png')
-electronImage.load()
 
 
 export class Electron extends Actor {
@@ -18,10 +17,9 @@ export class Electron extends Actor {
         this.maxVel = maxVel;
     }
 
-    onInitialize() {
-        if (electronImage.isLoaded()) {
-            this.graphics.use(electronImage.toSprite());
-        }
+    async onInitialize() {
+        await electronImage.load(); // Ensure the image is loaded here
+        this.graphics.use(electronImage.toSprite());
     }
 
     onPostUpdate() {

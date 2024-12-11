@@ -1,3 +1,5 @@
+'use client'
+
 import { Actor, ImageSource, Scene } from 'excalibur';
 import { StaticActor } from './static_actor';
 
@@ -18,6 +20,7 @@ export class Scene1 extends Scene {
 
     // Return an array of all resources to load
     getResources() {
+
         return [
             this.chamberImage,
             this.anodeImage,
@@ -66,5 +69,6 @@ export class Scene1 extends Scene {
         this.add(psuActor);
         this.add(multimeterActor);
         this.add(lightSourceActor);
+
     }
 }

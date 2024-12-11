@@ -8,11 +8,13 @@ import { Electron } from './game/electron';
 import { Photon } from './game/photon';
 import { Scene1 } from './game/scene1';
 
-const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel, electronAcceleration, electronMaxVel, showAllElectrons, spawnProbability }) => {
+export const PhysicsSimulationDev = ({ bgColor, intensity, wavelength, electronVel, electronAcceleration, electronMaxVel, showAllElectrons, spawnProbability }) => {
     const gameContainerRef = useRef(null)
     const engineRef = useRef(null);
     const timerRef = useRef(null);
     const sceneRef = useRef(null)
+
+    console.log('game started')
 
     useEffect(() => {
         const colors = {
@@ -96,19 +98,22 @@ const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel, electr
             })
 
 
-
             scene1.add(photonSpawnTimer);
             photonSpawnTimer.start();
 
             timerRef.current = photonSpawnTimer;
 
             // Create a loader for Scene1's resources
-            const loader = new CustomLoader(scene1.getResources());
 
+            const loader = new CustomLoader(scene1.getResources());
             // Start the engine with the loader (loads images first)
+            console.log('starting engine')
             engine.start(loader).then(() => {
                 // Once loaded, go to Scene1
+                console.log('engine started')
                 engine.goToScene('scene1');
+            }).catch(err => {
+                console.log('Engine failed to start: ', err)
             });
 
             // Store references for later updates
@@ -172,4 +177,4 @@ const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel, electr
     );
 };
 
-export default PhysicsSimulation;
+export default PhysicsSimulationDev;

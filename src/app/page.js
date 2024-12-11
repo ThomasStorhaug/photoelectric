@@ -9,15 +9,21 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Slider } from '@/components/ui/slider'
 import { AudioWaveform, ChevronDown, ChevronUp, CircleHelp, Gauge, Moon, Pencil, Save, Sun, X } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WavelengthSlider } from './components/custom_slider'
+import { PhysicsSimulationDev } from './components/game'
 import { elements } from './components/metals'
 
-import dynamic from 'next/dynamic'
 
-const PhysicsSimulation = dynamic(() => import('./components/game'), {
-  ssr: false
-});
+import dynamic from 'next/dynamic'
+let PhysicsSimulation = PhysicsSimulationDev;
+
+if (process.env.NODE_ENV === 'production') {
+  PhysicsSimulation = dynamic(() => import('./components/game.js'), {
+    ssr: false
+  });
+}
+
 
 
 export default function Home() {
@@ -157,6 +163,12 @@ export default function Home() {
   }
 
   // #endregion
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, [])
   return (
     <>
       <nav className='flex p-2 justify-between'>
@@ -188,7 +200,9 @@ export default function Home() {
               </div>
             </CardHeader>
             <CardContent>
+
               <PhysicsSimulation electronAcceleration={acceleration} electronMaxVel={electronMaxVel} spawnProbability={spawnProbability} electronVel={electronVel} showAllElectrons={showAllElectrons} bgColor={darkMode ? 'dark' : 'light'} themeColor={darkMode ? [34, 195, 93] : [22, 162, 73]} intensity={intensity} wavelength={wavelength} />
+
 
             </CardContent>
           </Card>
