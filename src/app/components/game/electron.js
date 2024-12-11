@@ -2,7 +2,7 @@ import { Actor, CollisionType, ImageSource } from "excalibur";
 import { photonCollisionGroup } from "./photon";
 
 
-const electronImage = new ImageSource('http://localhost:3000/resources/electron.png')
+const electronImage = new ImageSource('/resources/electron.png')
 electronImage.load()
 
 
