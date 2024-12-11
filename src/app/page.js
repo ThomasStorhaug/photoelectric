@@ -17,8 +17,9 @@ import { elements } from './components/metals'
 
 import dynamic from 'next/dynamic'
 let PhysicsSimulation = PhysicsSimulationDev;
-
+let isProd = false
 if (process.env.NODE_ENV === 'production') {
+  isProd = true
   PhysicsSimulation = dynamic(() => import('./components/game.js'), {
     ssr: false
   });
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV === 'production') {
 
 
 export default function Home() {
+  useEffect(() => {
+    setIsClient(true);
+  }, [])
 
   const [darkMode, setDarkMode] = useState(true);
   const { setTheme } = useTheme()
@@ -166,9 +170,7 @@ export default function Home() {
 
   const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, [])
+
   return (
     <>
       <nav className='flex p-2 justify-between'>
@@ -200,10 +202,14 @@ export default function Home() {
               </div>
             </CardHeader>
             <CardContent>
-
-              <PhysicsSimulation electronAcceleration={acceleration} electronMaxVel={electronMaxVel} spawnProbability={spawnProbability} electronVel={electronVel} showAllElectrons={showAllElectrons} bgColor={darkMode ? 'dark' : 'light'} themeColor={darkMode ? [34, 195, 93] : [22, 162, 73]} intensity={intensity} wavelength={wavelength} />
-
-
+              {
+                isProd && isClient &&
+                <PhysicsSimulation electronAcceleration={acceleration} electronMaxVel={electronMaxVel} spawnProbability={spawnProbability} electronVel={electronVel} showAllElectrons={showAllElectrons} bgColor={darkMode ? 'dark' : 'light'} themeColor={darkMode ? [34, 195, 93] : [22, 162, 73]} intensity={intensity} wavelength={wavelength} />
+              }
+              {
+                !isProd &&
+                <PhysicsSimulation electronAcceleration={acceleration} electronMaxVel={electronMaxVel} spawnProbability={spawnProbability} electronVel={electronVel} showAllElectrons={showAllElectrons} bgColor={darkMode ? 'dark' : 'light'} themeColor={darkMode ? [34, 195, 93] : [22, 162, 73]} intensity={intensity} wavelength={wavelength} />
+              }
             </CardContent>
           </Card>
           <ScrollArea className='h-auto'>
