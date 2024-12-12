@@ -1,13 +1,18 @@
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
-const renderDot = (atValue) => (props) => {
-    const { cx, cy, value } = props;
-    if (value === atValue) {
-        return <circle key={`dot_${cx}_${cy}`} cx={cx} cy={cy} r={5} fill="red" />
-    }
-}
-renderDot.displayName = 'renderDot'
+const renderDot = (atValue) => {
+    const DotComponent = (props) => {
+        const { cx, cy, value } = props;
+        if (value === atValue) {
+            return <circle key={`dot_${cx}_${cy}`} cx={cx} cy={cy} r={5} fill="red" />;
+        }
+        return null;
+    };
+
+    DotComponent.displayName = "CustomDot"; // Add displayName here
+    return DotComponent;
+};
 
 export function Plot({ data, chartConfig, type }) {
     const atValue = data[1]['energy eV']
