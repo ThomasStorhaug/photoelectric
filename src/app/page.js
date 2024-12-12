@@ -20,7 +20,7 @@ import { Plot } from './components/plot'
 
 import dynamic from 'next/dynamic'
 
-PhysicsSimulation = dynamic(() => import('./components/game.js'), {
+const PhysicsSimulation = dynamic(() => import('./components/game.js'), {
   ssr: false
 })
 
