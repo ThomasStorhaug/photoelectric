@@ -22,7 +22,7 @@ import dynamic from 'next/dynamic'
 
 PhysicsSimulation = dynamic(() => import('./components/game.js'), {
   ssr: false
-}
+})
 
 
 
