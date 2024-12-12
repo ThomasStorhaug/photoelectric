@@ -19,7 +19,7 @@ export const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel,
             'dark': [28, 25, 23],
             'light': [255, 255, 255]
         }
-        const interval = intensity / 1500
+        const interval = 1500 / intensity
         // Create a new Excalibur Engine if it doesn't exist
         if (!engineRef.current) {
             const backgroundColor = new Color(colors[bgColor][0], colors[bgColor][1], colors[bgColor][2], 1)
@@ -125,7 +125,7 @@ export const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel,
                 engineRef.current.stop();
             }
         };
-    }, [intensity, bgColor]);
+    }, []);
 
     useEffect(() => {
         const colors = {
@@ -138,7 +138,7 @@ export const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel,
             timerRef.current.reset();
             timerRef.current.start();
 
-            engineRef.current.intensity = intensity
+            engineRef.current.interval = newInterval;
             engineRef.current.backgroundColor = new Color(colors[bgColor][0], colors[bgColor][1], colors[bgColor][2], 1);
             engineRef.current.wavelength = wavelength;
             engineRef.current.electronVel = electronVel;

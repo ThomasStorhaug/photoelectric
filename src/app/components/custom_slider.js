@@ -28,13 +28,13 @@ export function WavelengthSlider(props) {
         <Slider.Root {...props} max={900} min={100} step={1} className="relative h-5 flex items-center">
             <Slider.Track className='flex flex-1 h-6 basis-full'>
                 <span className='relative bg-neutral-500 h-6 UV text-center rounded-l'>UV</span>
-                <span className='relative h-6 bg-gradient-to-r from-transparent via-violet-500 to-blue-500 spectrum_violet'></span>
+                <span className='relative h-6 bg-gradient-to-r from-black via-violet-500 to-blue-500 spectrum_violet'></span>
                 <span className='relative h-6 bg-gradient-to-r from-blue-500 to-cyan-500 spectrum_blue'></span>
                 <span className='relative h-6 bg-gradient-to-r from-cyan-500 to-green-500 spectrum_cyan'></span>
                 <span className='relative h-6 bg-gradient-to-r from-green-500 to-yellow-500 spectrum_green'></span>
                 <span className='relative h-6 bg-gradient-to-r from-yellow-500 to-orange-500 spectrum_yellow'></span>
                 <span className='relative h-6 bg-gradient-to-r from-orange-500 to-red-500 spectrum_orange'></span>
-                <span className='relative h-6 bg-gradient-to-r from-red-500 spectrum_red'></span>
+                <span className='relative h-6 bg-gradient-to-r from-red-500 to-black spectrum_red'></span>
                 <span className='relative h-6 bg-neutral-500 spectrum_if text-center rounded-r'>IR</span>
             </Slider.Track>
             <Slider.Thumb className='block w-4 h-8 bg-background border border-primary/50 rounded focus:outline-none"' />

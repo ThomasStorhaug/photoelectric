@@ -33,7 +33,6 @@ export class Scene1 extends Scene {
     }
 
     onInitialize(engine) {
-        console.log('Scene1 initialized');
 
         // Create a basic actor (hitbox)
         const anode_hitbox = new Actor({

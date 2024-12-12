@@ -7,12 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Slider } from '@/components/ui/slider'
-import { AudioLines, AudioWaveform, ChevronDown, ChevronUp, CircleHelp, Gauge, Moon, Pencil, Save, Sun, X } from 'lucide-react'
+import { AudioLines, AudioWaveform, ChevronDown, ChevronUp, CircleHelp, Gauge, Moon, Pencil, Save, Sun, X, Zap } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { WavelengthSlider } from './components/custom_slider'
 import { generateEnergyFrequencyData } from './components/data_for_chart'
-//import { PhysicsSimulation } from './components/game'; // for development, comment out in production
+// import { PhysicsSimulation } from './components/game'; // for development, comment out in production
 import { elements } from './components/metals'
 import { Plot } from './components/plot'
 
@@ -109,6 +109,7 @@ export default function Home() {
 
   const [wavelength, setWavelength] = useState(380); // for display on UI
   const [frequency, setFrequency] = useState(defaultPhotonFrequency);
+  const [photonEnergy, setPhotonEnergy] = useState(defaultPhotonEnergy);
   const [electronVel, setElectronVel] = useState(defaultElectronVel);
   const [acceleration, setAcceleration] = useState(0);
   const [electronMaxVel, setElectronMaxVel] = useState(0);
@@ -116,6 +117,9 @@ export default function Home() {
 
   const [enFreqData, setEnFreqData] = useState(generateEnergyFrequencyData(defaultPhotonFrequency, defaulWorkFunction));
   const chartConfig = {
+    energy: {
+      label: 'Energy'
+    },
     desktop: {
       label: "Desktop",
       color: "hsl(var(--chart-1))",
@@ -128,11 +132,13 @@ export default function Home() {
     const newFrequency = calcPhotonFrequency(newWavelengthInM);
     setFrequency(newFrequency);
     const newEnergy = calcPhotonEnergy(newFrequency);
+    setPhotonEnergy(newEnergy);
     const electronMaxVel = calcElectronVel(newEnergy, workFunction)
     setElectronVel(electronMaxVel);
     setElectronVelValue(electronMaxVel > 0 ? Math.round(electronMaxVel) : 0)
     const probability = calcProbability(metal.atomicNumber, newEnergy);
     setSpawnProbability(probability);
+    setEnFreqData(generateEnergyFrequencyData(newFrequency, workFunction))
   }
 
   function handleChangeFrequency(value) {
@@ -140,9 +146,8 @@ export default function Home() {
     const newWaveLength = Math.round(calcWavelengthFromFreq(value) * 1000000000);
     setWavelength(newWaveLength);
     const newPhotonEnergy = calcPhotonEnergy(value);
-    console.log(`new photon energy: ${newPhotonEnergy}`)
+    setPhotonEnergy(newPhotonEnergy);
     const newElectronVel = calcElectronVel(newPhotonEnergy, workFunction)
-    console.log(`new electron velocity: ${newElectronVel}`)
     setElectronVel(newElectronVel);
     setElectronVelValue(newElectronVel > 0 ? Math.round(newElectronVel) : 0);
     const probability = calcProbability(metal.atomicNumber, newPhotonEnergy);
@@ -156,6 +161,8 @@ export default function Home() {
     const maxVel = calcMaxVel(Math.abs(value));
     setElectronMaxVel(maxVel);
   }
+
+
 
   // #endregion
 
@@ -191,6 +198,18 @@ export default function Home() {
       setVelWarningOpen(true)
     }
     setVelocityEditable(false);
+  }
+
+  function handleSelectMetal(_metal) {
+    setMetal(_metal);
+    setWorkFunction(_metal.workFunction * electronVolt);
+    const newVel = calcElectronVel(photonEnergy, _metal.workFunction * electronVolt);
+    setElectronVel(newVel);
+    if (newVel > 0) {
+      setElectronVelValue(Math.round(newVel))
+    } else {
+      setElectronVelValue(0)
+    }
   }
 
   // #endregion
@@ -249,7 +268,7 @@ export default function Home() {
                               {
                                 elements.map((obj) => {
                                   return (
-                                    <DropdownMenuItem key={`dropdown-item-${obj.name}`}>
+                                    <DropdownMenuItem key={`dropdown-item-${obj.name}`} onSelect={() => (handleSelectMetal(obj))}>
                                       <div className='flex justify-between items-center gap-2'>
                                         <p>{obj.name}</p>
                                         <p>φ: {obj.workFunction} eV</p>
@@ -307,6 +326,13 @@ export default function Home() {
                     max={maxPhotonFrequency}
                     onValueChange={(value) => (handleChangeFrequency(value))}
                   />
+                  <div className='flex justify-between items-center my-2'>
+                    <div className='flex items-center'>
+                      <Zap />
+                      <p className='px-2'>Photon Energy:</p>
+                    </div>
+                    <p>{Math.round(1000 * (photonEnergy / electronVolt)) / 1000} eV</p>
+                  </div>
                 </CardContent>
               </Card>
               <Card className='m-2'>
@@ -365,7 +391,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Electron energy vs photon frequency</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className='mb-4'>
                   <Plot data={enFreqData} chartConfig={chartConfig} />
                 </CardContent>
               </Card>

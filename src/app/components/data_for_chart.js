@@ -12,15 +12,15 @@ export function generateEnergyFrequencyData(photonFrequency, workFunction,) {
     const data = [
         {
             x: cutOffFrequency / 1e15,
-            y: ((calcPhotonEnergy(cutOffFrequency)) - workFunction) / electronVolt
+            'energy eV': ((calcPhotonEnergy(cutOffFrequency)) - workFunction) / electronVolt
         },
         {
             x: photonFrequency / 1e15,
-            y: (calcPhotonEnergy(photonFrequency) - workFunction) / electronVolt
+            'energy eV': (calcPhotonEnergy(photonFrequency) - workFunction) / electronVolt
         },
         {
             x: 3,
-            y: (calcPhotonEnergy(3e15) - workFunction) / electronVolt
+            'energy eV': (calcPhotonEnergy(3e15) - workFunction) / electronVolt
         }
     ]
     return data

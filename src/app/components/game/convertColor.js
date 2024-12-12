@@ -25,11 +25,14 @@ export function wavelengthToRGB(wavelength) {
         R = 1;
         G = 0;
         B = 0;
+    } else if (wavelength > 780) {
+        R = 94;
+        G = 41;
+        B = 41;
     } else {
-        // wavelength not in the visible range
-        R = 0;
-        G = 0;
-        B = 0;
+        R = 41;
+        G = 41;
+        B = 94;
     }
 
     // Dimming factors at the edges of the spectrum for realism
