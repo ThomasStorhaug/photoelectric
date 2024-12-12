@@ -7,6 +7,7 @@ const renderDot = (atValue) => (props) => {
         return <circle key={`dot_${cx}_${cy}`} cx={cx} cy={cy} r={5} fill="red" />
     }
 }
+renderDot.displayName = 'renderDot'
 
 export function Plot({ data, chartConfig, type }) {
     const atValue = data[1]['energy eV']
