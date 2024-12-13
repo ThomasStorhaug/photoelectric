@@ -9,19 +9,34 @@ function calcPhotonEnergy(_photonFrequency) {
 export function generateEnergyFrequencyData(photonFrequency, workFunction,) {
     // Ke = Ef - phi
     const cutOffFrequency = workFunction / planck;
-    const data = [
-        {
-            x: cutOffFrequency / 1e15,
-            'energy eV': ((calcPhotonEnergy(cutOffFrequency)) - workFunction) / electronVolt
-        },
-        {
-            x: photonFrequency / 1e15,
-            'energy eV': (calcPhotonEnergy(photonFrequency) - workFunction) / electronVolt
-        },
-        {
-            x: 3,
-            'energy eV': (calcPhotonEnergy(3e15) - workFunction) / electronVolt
-        }
-    ]
+    let data;
+    if (photonFrequency > cutOffFrequency) {
+        data = [
+            {
+                x: cutOffFrequency / 1e15,
+                'energy eV': ((calcPhotonEnergy(cutOffFrequency)) - workFunction) / electronVolt
+            },
+            {
+                x: photonFrequency / 1e15,
+                'energy eV': (calcPhotonEnergy(photonFrequency) - workFunction) / electronVolt
+            },
+            {
+                x: 3,
+                'energy eV': (calcPhotonEnergy(3e15) - workFunction) / electronVolt
+            }
+        ]
+    } else {
+        data = [
+            {
+                x: cutOffFrequency / 1e15,
+                'energy eV': ((calcPhotonEnergy(cutOffFrequency)) - workFunction) / electronVolt
+            },
+            {
+                x: 3,
+                'energy eV': (calcPhotonEnergy(3e15) - workFunction) / electronVolt
+            }
+        ]
+    }
+
     return data
 }

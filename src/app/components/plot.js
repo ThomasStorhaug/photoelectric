@@ -15,14 +15,19 @@ const renderDot = (atValue) => {
 };
 
 export function Plot({ data, chartConfig, type }) {
-    const atValue = data[1]['energy eV']
+    let atValue;
+    if (data.length > 2) {
+        atValue = data[1]['energy eV']
+    } else {
+        atValue = -1
+    }
     return (
         <ChartContainer config={chartConfig}>
             <LineChart data={data} margin={{ bottom: 16, left: 8, right: 8 }}>
                 <CartesianGrid />
                 <XAxis dataKey='x' type="number" domain={[0, 3]} label={{ value: 'Frequency (x10^15)', position: 'bottom' }} />
-                <ChartTooltip cursor={false} content={<ChartTooltipContent nameKey='energy' labelFormatter={(value,) => (`p p ${value}`)} />} />
-                <YAxis type="number" domain={[0, 10]} />
+                <ChartTooltip cursor={false} content={<ChartTooltipContent nameKey='energy' />} />
+                <YAxis type="number" domain={[0, 10]} label={{ value: 'Energy eV', angle: -90 }} />
                 <Line dataKey='energy eV' dot={renderDot(atValue)} />
             </LineChart>
         </ChartContainer>

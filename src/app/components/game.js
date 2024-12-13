@@ -56,7 +56,7 @@ export const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel,
 
             const handleSpawnElectron = (x, y) => {
                 const willSpawnMaxEnergy = Math.random() * 100;
-                const velocityXValue = engineRef.current.electronVel / 526;
+                const velocityXValue = engineRef.current.electronVel / 500;
                 if (engineRef.current.electronVel > 0) {
                     if (willSpawnMaxEnergy <= engineRef.current.spawnProbability) {
                         spawnElectron(x, y, vec(velocityXValue, 0));
@@ -82,7 +82,7 @@ export const PhysicsSimulation = ({ bgColor, intensity, wavelength, electronVel,
                 photon.body.vel = vec(-400, 400)
                 photon.on('collisionstart', () => {
                     const pos = photon.pos;
-                    handleSpawnElectron(pos.x + 10, pos.y);
+                    handleSpawnElectron(pos.x, pos.y);
                     photon.kill();
                 })
 

@@ -14,8 +14,10 @@ export class Scene1 extends Scene {
         this.cathodeImage = new ImageSource(BASE_URL + 'cathode.png');
         this.metalPlateImage = new ImageSource(BASE_URL + 'metal_plate.png');
         this.psuImage = new ImageSource(BASE_URL + 'psu.png');
-        this.multimeterImage = new ImageSource(BASE_URL + 'multimeter.png');
+        //this.multimeterImage = new ImageSource(BASE_URL + 'multimeter.png');
         this.lightSourceImage = new ImageSource(BASE_URL + 'light_source.png');
+        this.wiresPlusImage = new ImageSource(BASE_URL + 'wire_plus.png');
+        this.wiresMinusImage = new ImageSource(BASE_URL + 'wire_minus.png');
     }
 
     // Return an array of all resources to load
@@ -27,8 +29,10 @@ export class Scene1 extends Scene {
             this.cathodeImage,
             this.metalPlateImage,
             this.psuImage,
-            this.multimeterImage,
+            //this.multimeterImage,
             this.lightSourceImage,
+            this.wiresPlusImage,
+            this.wiresMinusImage
         ];
     }
 
@@ -55,8 +59,9 @@ export class Scene1 extends Scene {
         const metalPlateActor = new StaticActor({ imageSource: this.metalPlateImage, x: 140, y: 260 });
         const cathodeActor = new StaticActor({ imageSource: this.cathodeImage, x: 688, y: 260 });
         const psuActor = new StaticActor({ imageSource: this.psuImage, x: 400, y: 460 });
-        const multimeterActor = new StaticActor({ imageSource: this.multimeterImage, x: 543, y: 495 });
+        //const multimeterActor = new StaticActor({ imageSource: this.multimeterImage, x: 543, y: 495 });
         const lightSourceActor = new StaticActor({ imageSource: this.lightSourceImage, x: 336, y: 65 })
+        const wires = new StaticActor({ imageSource: this.wiresPlusImage, x: 394, y: 423 })
 
         // Add actors to the scene
         this.add(anode_hitbox);
@@ -66,8 +71,9 @@ export class Scene1 extends Scene {
         this.add(metalPlateActor);
         this.add(cathodeActor);
         this.add(psuActor);
-        this.add(multimeterActor);
+        //this.add(multimeterActor);
         this.add(lightSourceActor);
+        this.add(wires)
 
     }
 }

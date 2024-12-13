@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { WavelengthSlider } from './components/custom_slider'
 import { generateEnergyFrequencyData } from './components/data_for_chart'
-// import { PhysicsSimulation } from './components/game'; // for development, comment out in production
+//import { PhysicsSimulation } from './components/game'; // for development, comment out in production
 import { elements } from './components/metals'
 import { Plot } from './components/plot'
 
@@ -89,7 +89,7 @@ export default function Home() {
   }
 
   function calcMaxVel(voltage) {
-    return Math.sqrt(2 * unitCharge / unitMass)
+    return Math.sqrt(2 * unitCharge * voltage / unitMass)
   }
   // #endregion
 
@@ -152,6 +152,7 @@ export default function Home() {
     setElectronVelValue(newElectronVel > 0 ? Math.round(newElectronVel) : 0);
     const probability = calcProbability(metal.atomicNumber, newPhotonEnergy);
     setSpawnProbability(probability);
+    setEnFreqData(generateEnergyFrequencyData(value, workFunction))
   }
 
 
@@ -192,7 +193,7 @@ export default function Home() {
       setElectronVel(tempVelValue);
       setElectronVelValue(tempVelValue);
       setWavelength(Math.round(calculatedWLInm));
-      setFrequency(calcPhotonFrequency(calculatedWLInm));
+      setFrequency(calcPhotonFrequency(calculatedWavelength));
       setSpawnProbability(calcProbability(metal.atomicNumber, calcPhotonEnergy(calcPhotonFrequency(calculatedWavelength))));
     } else {
       setVelWarningOpen(true)
@@ -205,6 +206,8 @@ export default function Home() {
     setWorkFunction(_metal.workFunction * electronVolt);
     const newVel = calcElectronVel(photonEnergy, _metal.workFunction * electronVolt);
     setElectronVel(newVel);
+    console.log(_metal.workFunction * electronVolt)
+    setEnFreqData(generateEnergyFrequencyData(frequency, _metal.workFunction * electronVolt))
     if (newVel > 0) {
       setElectronVelValue(Math.round(newVel))
     } else {
@@ -324,7 +327,7 @@ export default function Home() {
                     value={[frequency]}
                     min={minPhotonFrequency}
                     max={maxPhotonFrequency}
-                    onValueChange={(value) => (handleChangeFrequency(value))}
+                    onValueChange={(value) => (handleChangeFrequency(value[0]))}
                   />
                   <div className='flex justify-between items-center my-2'>
                     <div className='flex items-center'>
@@ -389,7 +392,8 @@ export default function Home() {
               </Card>
               <Card className='m-2'>
                 <CardHeader>
-                  <CardTitle>Electron energy vs photon frequency</CardTitle>
+                  <CardTitle>Cut-off frequency</CardTitle>
+                  <CardDescription>Electron energy vs photon frequency</CardDescription>
                 </CardHeader>
                 <CardContent className='mb-4'>
                   <Plot data={enFreqData} chartConfig={chartConfig} />
